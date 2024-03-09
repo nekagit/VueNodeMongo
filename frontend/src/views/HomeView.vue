@@ -38,7 +38,7 @@ const itemsSorted = computed<IProduct[]>(() => {
 
 </script>
 <template>
-  <section class="grid grid-cols-2 gap-4 p-4 text-black w-full h-screen">
+  <section class="grid gap-4 p-4 text-black w-full h-screen">
    <div class="overflow-x-auto">
       <div class="w-full h-screen card bg-red-200 border border-red-400 p-4">
         <h1>ProductManagement</h1>
@@ -62,7 +62,7 @@ const itemsSorted = computed<IProduct[]>(() => {
       </Table>
       </div>
     </div>
-    <div class="overflow-x-auto">
+    <!-- <div class="overflow-x-auto">
       <div class="w-full h-screen card bg-red-200 border border-red-400 p-4">
         <h1>CustomerManagement</h1>
         <Table
@@ -130,7 +130,7 @@ const itemsSorted = computed<IProduct[]>(() => {
         </template>
       </Table>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="card bg-green-200 border border-green-400 p-4">
       <h3>CustomerManagement</h3>
       <div class="grid gap-4 p-4 w-full h-full">

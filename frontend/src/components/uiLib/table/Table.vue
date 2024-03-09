@@ -95,6 +95,7 @@ function clone<T>(source: T[]): T[] {
 }
 
 const internalItems = ref<internalT[]>([])
+const tableItems = ref<T[]>(props.items)
 
 watch(() => props.items, (newValue) => {
   if (props.expandable) internalItems.value = clone(newValue as any)
@@ -156,38 +157,34 @@ function getValue(item: any, path: string | string[] | undefined) {
 const { styles, classes, className } = useTheme('Table', {}, props)
 
 const showModal = ref(true)
-const modalItem = ref({})
+const modalItem = ref()
 
-const handleRowClick = (event: MouseEvent) => {
-  console.log(event)
-  const cell = event.target as HTMLElement;
-  const rowIndex = (cell.parentElement as HTMLTableRowElement)?.rowIndex;
-  const columnIndex = (cell as HTMLTableCellElement)?.cellIndex;
-
-  if (rowIndex !== undefined && columnIndex !== undefined) {
-    const clickedItem = internalItems.value[rowIndex];
+const handleRowClick = (rowIndex: number) => {
+    const clickedItem = tableItems.value[ rowIndex];
     modalItem.value = clickedItem;
-  }
-  showModal.value = true
+  showModal.value = !showModal.value
 }
 
 </script>
 
 <template>
-  
-  <x-button class="mr-2" @click="showModal = true">title & content</x-button>
-  <!--  -->
-    <Modal v-model="showModal" backdrop>
+<div v-if="showModal">
+
+
+  <Modal v-model="showModal" backdrop>
     <template #header>
       Item
     </template>
-      {{  modalItem }}asdfasdf
-
+    {{  modalItem }}
+    
     <template #actions>
-      <x-button>Cancel</x-button>
+      <x-button @click="showModal = false">Cancel</x-button>
       <x-button color="success">Confirm</x-button>
     </template>
   </Modal>
+</div>  
+<div v-else>
+
     <slot name="title"></slot>
     <slot name="actions"></slot>
 
@@ -266,7 +263,7 @@ const handleRowClick = (event: MouseEvent) => {
           <x-table-row
             :pointer="pointer"
             :striped="striped"
-            @click="handleRowClick"
+            @click="handleRowClick(index)"
             class="hover:bg-white"
           >
             <x-table-cell v-if="expandable" width="48" class="!p-1">
@@ -317,4 +314,6 @@ const handleRowClick = (event: MouseEvent) => {
     </div>
   </div>
 </div>
+</div>
+
 </template>
