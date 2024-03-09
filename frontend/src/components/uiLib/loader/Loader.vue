@@ -29,7 +29,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { useCommon } from '../composables/useCommon'
 import { useTheme, type ThemeComponent } from '../composables/useTheme'
 
-import XSpinner from '../components/spinner/Spinner.vue'
+import XSpinner from '../spinner/Spinner.vue'
 import XIcon from '../icon/Icon.vue'
 
 import { errorIcon, successIcon } from '../common/icons'

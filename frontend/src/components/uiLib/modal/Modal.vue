@@ -83,7 +83,7 @@ const props = defineProps(modalProps)
 const emit = defineEmits(['update:modelValue', 'submit'])
 
 const value = ref(props.modelValue)
-const visible = ref(false)
+const visible = ref(props.modelValue)
 const modalRef = ref<HTMLElement | null>(null)
 const modalWrapperRef = ref<HTMLElement | null>(null)
 
@@ -165,10 +165,10 @@ const { styles, classes, className } = useTheme('Modal', {}, props, {
 })
 
 defineExpose({ open, close })
+console.log(visible.value, value.value)
 </script>
 
 <template>
-  <teleport to="body">
     <div
       v-if="value"
       ref="modalWrapperRef"
@@ -179,6 +179,7 @@ defineExpose({ open, close })
         visible ? 'visible' : 'invisible ease-in duration-100'
       ]"
     >
+    asdfasdfasdf
       <div
         v-if="backdrop"
         :class="classes.backdrop"
@@ -243,6 +244,5 @@ defineExpose({ open, close })
         </component>
       </div>
     </div>
-  </teleport>
 </template>
 ../ui/src/composables/useTheme../ui/src/composables/useFocusTrap../ui/src/common/icons

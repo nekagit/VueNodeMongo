@@ -1,5 +1,9 @@
 <script lang="ts">
 const tableProps = {
+    handleRowClick: {
+    type: Function as PropType<(row: HTMLElement) => void>,
+    default: () => {},
+  },
   headers: {
     type: Array as PropType<TableHeader[]>,
     default: () => [],
@@ -57,6 +61,8 @@ export default { name: 'XTable' }
 import { ref, watch, type ExtractPublicPropTypes, type PropType } from 'vue'
 import { useTheme, type ThemeComponent } from '../composables/useTheme'
 
+import XIcon from '../icon/Icon.vue'
+import Modal from '../modal/Modal.vue'
 import type { SkeletonShape } from '../skeleton/Skeleton.vue'
 import XSkeleton from '../skeleton/Skeleton.vue'
 import XSpinner from '../spinner/Spinner.vue'
@@ -65,8 +71,6 @@ import XTableCell from './TableCell.vue'
 import XTableHead from './TableHead.vue'
 import XTableHeader, { type TableHeaderAlign, type TableHeaderSort } from './TableHeader.vue'
 import XTableRow from './TableRow.vue'
-
-import XIcon from '../icon/Icon.vue'
 
 import { chevronDownIcon } from '../common/icons'
 
@@ -150,10 +154,40 @@ function getValue(item: any, path: string | string[] | undefined) {
 }
 
 const { styles, classes, className } = useTheme('Table', {}, props)
+
+const showModal = ref(true)
+const modalItem = ref({})
+
+const handleRowClick = (event: MouseEvent) => {
+  console.log(event)
+  const cell = event.target as HTMLElement;
+  const rowIndex = (cell.parentElement as HTMLTableRowElement)?.rowIndex;
+  const columnIndex = (cell as HTMLTableCellElement)?.cellIndex;
+
+  if (rowIndex !== undefined && columnIndex !== undefined) {
+    const clickedItem = internalItems.value[rowIndex];
+    modalItem.value = clickedItem;
+  }
+  showModal.value = true
+}
+
 </script>
 
 <template>
-  <!-- <div :class="[className, classes.wrapper]"> -->
+  
+  <x-button class="mr-2" @click="showModal = true">title & content</x-button>
+  <!--  -->
+    <Modal v-model="showModal" backdrop>
+    <template #header>
+      Item
+    </template>
+      {{  modalItem }}asdfasdf
+
+    <template #actions>
+      <x-button>Cancel</x-button>
+      <x-button color="success">Confirm</x-button>
+    </template>
+  </Modal>
     <slot name="title"></slot>
     <slot name="actions"></slot>
 
@@ -232,10 +266,8 @@ const { styles, classes, className } = useTheme('Table', {}, props)
           <x-table-row
             :pointer="pointer"
             :striped="striped"
-            @click="$emit('click-row', item)"
+            @click="handleRowClick"
             class="hover:bg-white"
-            
-      @click="handleRowClick(item)"
           >
             <x-table-cell v-if="expandable" width="48" class="!p-1">
               <button type="button" class="p-4" @click="internalItems[index].__expanded = !internalItems[index].__expanded">

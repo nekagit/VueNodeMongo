@@ -16,7 +16,7 @@ const InvoiceSchema = new mongoose.Schema({
         ref: 'Customer' 
     },
     date: Date,
-    invoiceTotal: Number
+    invoiceTotal: Number,
 });
 
 const InvoiceLineSchema = new mongoose.Schema({
