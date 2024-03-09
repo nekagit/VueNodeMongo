@@ -42,8 +42,7 @@ const itemsSorted = computed<IProduct[]>(() => {
   <section class="grid gap-4 p-4 text-black w-full h-screen">
    <div class="overflow-x-auto">
       <div class="w-full h-screen card bg-blue-200 border border-blue-400 p-4">
-        <h3>ProductManagement</h3>
-        <button @click="">fetchAll</button>
+        <h1>ProductManagement</h1>
          <Table
         v-model:sort="sort"
         expandable

@@ -3,13 +3,15 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import http from '../http-common'
 export interface ApiResponse {
-  data: IProduct[] // Define the data property with the correct type
+  data: IProduct[]
 }
 
 export const useAppStateStore = defineStore('appState', {
   state: () => {
     const items = ref<IProduct[]>([])
-
+    items.value.push({ id: 1, name: 'book', unitPrice: 1000 })
+    items.value.push({ id: 2, name: 'book2', unitPrice: 2000 })
+    items.value.push({ id: 3, name: 'book3', unitPrice: 3000 })
     return {
       items
     }
@@ -20,7 +22,6 @@ export const useAppStateStore = defineStore('appState', {
     },
     async getAll() {
       const response: ApiResponse = await http.get('/products')
-      console.log(response.data, 'hehe')
       this.items = response.data
       console.log(this.items)
       return response.data

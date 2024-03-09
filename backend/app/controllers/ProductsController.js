@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const url =
-  "mongodb+srv://njoco:pSVJjBxVVFfRRhwq@soprotterdam.v4bx2oh.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://njoca:ECfsAUI5CxrMONug@shop.oldvczw.mongodb.net/";
 const connection = mongoose.createConnection(url);
 
 const shopModal = require("../models/ShopModel.js");
