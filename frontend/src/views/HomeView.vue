@@ -41,7 +41,7 @@ const itemsSorted = computed<IProduct[]>(() => {
 <template>
   <section class="grid gap-4 p-4 text-black w-full h-screen">
    <div class="overflow-x-auto">
-      <div class="w-full h-screen card bg-blue-200 border border-blue-400 p-4">
+      <div class="w-full h-screen card bg-red-200 border border-red-400 p-4">
         <h1>ProductManagement</h1>
          <Table
         v-model:sort="sort"

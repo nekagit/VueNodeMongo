@@ -157,44 +157,6 @@ const { styles, classes, className } = useTheme('Table', {}, props)
     <slot name="title"></slot>
     <slot name="actions"></slot>
 
-
-
-
-  <table
-          class="min-w-full text-left text-sm font-light text-surface dark:text-white">
-          <thead
-            class="border-b border-neutral-200 font-medium dark:border-white/10">
-            <tr>
-              <th scope="col" class="px-6 py-4">#</th>
-              <th scope="col" class="px-6 py-4">First</th>
-              <th scope="col" class="px-6 py-4">Last</th>
-              <th scope="col" class="px-6 py-4">Handle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b border-neutral-200 dark:border-white/10">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-              <td class="whitespace-nowrap px-6 py-4">Mark</td>
-              <td class="whitespace-nowrap px-6 py-4">Otto</td>
-              <td class="whitespace-nowrap px-6 py-4">@mdo</td>
-            </tr>
-            <tr class="border-b border-neutral-200 dark:border-white/10">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">2</td>
-              <td class="whitespace-nowrap px-6 py-4">Jacob</td>
-              <td class="whitespace-nowrap px-6 py-4">Thornton</td>
-              <td class="whitespace-nowrap px-6 py-4">@fat</td>
-            </tr>
-            <tr class="border-b border-neutral-200 dark:border-white/10">
-              <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
-              <td class="whitespace-nowrap px-6 py-4">Larry</td>
-              <td class="whitespace-nowrap px-6 py-4">Wild</td>
-              <td class="whitespace-nowrap px-6 py-4">@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-
-
-
 <div class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -230,7 +192,7 @@ const { styles, classes, className } = useTheme('Table', {}, props)
             v-for="(item, index) in Number(loadingLines)"
             :key="index"
             :striped="striped"
-          >
+           class="border-b border-neutral-200 dark:border-white/10">
             <x-table-cell
               v-for="(header, index2) in headers"
               :key="index2"
@@ -271,13 +233,16 @@ const { styles, classes, className } = useTheme('Table', {}, props)
             :pointer="pointer"
             :striped="striped"
             @click="$emit('click-row', item)"
+            class="hover:bg-white"
+            
+      @click="handleRowClick(item)"
           >
             <x-table-cell v-if="expandable" width="48" class="!p-1">
               <button type="button" class="p-4" @click="internalItems[index].__expanded = !internalItems[index].__expanded">
                 <x-icon
                   :icon="chevronDownIcon"
                   :size="dense ? 'xs' : 'md'"
-                  class="transition-transform"
+                  class="transition-transform whitespace-nowrap px-6 py-4 font-medium"
                   :class="{
                     'rotate-180': internalItems[index]?.__expanded,
                   }"
@@ -291,6 +256,7 @@ const { styles, classes, className } = useTheme('Table', {}, props)
               :truncate="header.truncate"
               :width="header.width"
               :dense="dense"
+                  class="transition-transform whitespace-nowrap px-6 py-4"
               :fixed="fixed"
             >
               <slot :name="`item-${header.value}`" :item="item">
