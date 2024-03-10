@@ -36,12 +36,46 @@ const itemsSorted = computed<IProduct[]>(() => {
   })
 })
 
+const handleDelete = (id: number) => {
+  console.log(id)
+return
+}
+
+const showModal = ref(false)
+const modalItem = ref()
+
+const handleRowClick = (rowIndex: number) => {
+    const clickedItem = tableItems.value[ rowIndex];
+    modalItem.value = clickedItem;
+  showModal.value = !showModal.value
+}
 </script>
 <template>
   <section class="grid gap-4 p-4 text-black w-full h-screen">
    <div class="overflow-x-auto">
       <div class="w-full h-screen card bg-red-200 border border-red-400 p-4">
         <h1>ProductManagement</h1>
+        <div v-if="showModal" style="width: 50%">
+  <Modal v-model="showModal" backdrop>
+    <template #header>
+      <div class="grid grid-cols-2 my-3"> 
+        <h1 class="font-medium">ID</h1> {{ modalItem.id }}
+        <h1 class="font-medium">Name</h1> {{ modalItem.name }}
+        <h1 class="font-medium">UnitPrice</h1> {{ modalItem.unitPrice }}
+      </div>
+    </template>
+    
+    <template #actions>
+      <x-button
+    class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow my-3"
+    size="sm"
+    ghost
+       @click="showModal = false">Exit</x-button>
+    </template>
+  </Modal>
+</div>  
+<div v-else>
+
          <Table
         v-model:sort="sort"
         expandable
@@ -49,18 +83,26 @@ const itemsSorted = computed<IProduct[]>(() => {
         :items="itemsSorted"
         class="my-5"
       >
-      <template  #expanded-row="{ item }">
+      <template  #item-unitPrice="{ item }">
         <div class="mx-5">
-          {{ item }}
-        </div>
-        </template>
-        <template  #item-unitPrice="{ item }">
-          <div class="mx-5">
           {{ item.unitPrice }}
         </div>
-        </template>
+      </template>
+      <template #row-actions="{item }">
+        <x-button
+        class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow z-10 cursor-pointer"
+        size="sm"
+         @click="handleDelete(item.id)"
+        >Delete</x-button>
+          <x-button
+    class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow my-3"
+    size="sm"
+    ghost
+       @click="showModal = false">Edit</x-button>
+  </template>
       </Table>
       </div>
+</div>  
     </div>
     <!-- <div class="overflow-x-auto">
       <div class="w-full h-screen card bg-red-200 border border-red-400 p-4">

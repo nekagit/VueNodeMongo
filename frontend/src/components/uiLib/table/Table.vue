@@ -156,42 +156,26 @@ function getValue(item: any, path: string | string[] | undefined) {
 
 const { styles, classes, className } = useTheme('Table', {}, props)
 
-const showModal = ref(false)
-const modalItem = ref()
 
-const handleRowClick = (rowIndex: number) => {
-    const clickedItem = tableItems.value[ rowIndex];
-    modalItem.value = clickedItem;
-  showModal.value = !showModal.value
+
+const handleCreate= () => {
+
 }
 
 </script>
 
 <template>
-<div v-if="showModal" style="width: 50%">
-  <Modal v-model="showModal" backdrop>
-    <template #header>
-      <div class="grid grid-cols-2 my-3"> 
-        <h1 class="font-medium">ID</h1> {{ modalItem.id }}
-        <h1 class="font-medium">Name</h1> {{ modalItem.name }}
-        <h1 class="font-medium">UnitPrice</h1> {{ modalItem.unitPrice }}
-      </div>
-    </template>
-    
-    <template #actions>
-      <x-button
-    class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow my-3"
-    size="sm"
-    ghost
-       @click="showModal = false">Exit</x-button>
-    </template>
-  </Modal>
-</div>  
-<div v-else>
 
     <slot name="title"></slot>
-    <slot name="actions"></slot>
-
+    <slot name="actions">
+      
+      <x-button
+      class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow my-3"
+      size="sm"
+      ghost
+      @click="handleCreate()">Create Product</x-button>
+     
+    </slot>
 <div class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -267,11 +251,12 @@ const handleRowClick = (rowIndex: number) => {
           <x-table-row
             :pointer="pointer"
             :striped="striped"
-            @click="handleRowClick(index)"
             class="hover:bg-white"
-          >
-            <x-table-cell v-if="expandable" width="48" class="!p-1">
-              <button type="button" class="p-4" @click="internalItems[index].__expanded = !internalItems[index].__expanded">
+            >
+          
+          <x-table-cell v-if="expandable" width="48" class="!p-1">
+            <slot name="row-actions" :item="item"></slot>
+            <button type="button" class="p-4" @click="internalItems[index].__expanded = !internalItems[index].__expanded">
                 <x-icon
                   :icon="chevronDownIcon"
                   :size="dense ? 'xs' : 'md'"
@@ -297,13 +282,7 @@ const handleRowClick = (rowIndex: number) => {
               </slot>
             </x-table-cell>
           </x-table-row>
-          <tr v-if="expandable" :class="{ 'hidden': !internalItems[index]?.__expanded }">
-            <td colspan="999">
-              <div class="overflow-hidden transition-opacity" :class="[internalItems[index]?.__expanded ? '' : 'opacity-0 max-h-0']">
-                <slot name="expanded-row" :item="item"></slot>
-              </div>
-            </td>
-          </tr>
+               
         </template>
       </x-table-body>
       <div
@@ -317,7 +296,6 @@ const handleRowClick = (rowIndex: number) => {
       </div>
     </div>
   </div>
-</div>
 </div>
 
 </template>
