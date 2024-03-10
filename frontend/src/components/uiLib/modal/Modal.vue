@@ -179,7 +179,6 @@ console.log(visible.value, value.value)
         visible ? 'visible' : 'invisible ease-in duration-100'
       ]"
     >
-    asdfasdfasdf
       <div
         v-if="backdrop"
         :class="classes.backdrop"

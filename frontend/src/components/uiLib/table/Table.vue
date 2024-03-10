@@ -156,7 +156,7 @@ function getValue(item: any, path: string | string[] | undefined) {
 
 const { styles, classes, className } = useTheme('Table', {}, props)
 
-const showModal = ref(true)
+const showModal = ref(false)
 const modalItem = ref()
 
 const handleRowClick = (rowIndex: number) => {
@@ -168,18 +168,22 @@ const handleRowClick = (rowIndex: number) => {
 </script>
 
 <template>
-<div v-if="showModal">
-
-
+<div v-if="showModal" style="width: 50%">
   <Modal v-model="showModal" backdrop>
     <template #header>
-      Item
+      <div class="grid grid-cols-2 my-3"> 
+        <h1 class="font-medium">ID</h1> {{ modalItem.id }}
+        <h1 class="font-medium">Name</h1> {{ modalItem.name }}
+        <h1 class="font-medium">UnitPrice</h1> {{ modalItem.unitPrice }}
+      </div>
     </template>
-    {{  modalItem }}
     
     <template #actions>
-      <x-button @click="showModal = false">Cancel</x-button>
-      <x-button color="success">Confirm</x-button>
+      <x-button
+    class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow my-3"
+    size="sm"
+    ghost
+       @click="showModal = false">Exit</x-button>
     </template>
   </Modal>
 </div>  
